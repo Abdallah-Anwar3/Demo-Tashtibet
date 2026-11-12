@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 220 20% 94%;
+  --card: 0 0% 100%;
+  --raised: 220 25% 97%;
+  --fg: 223 40% 12%;
+  --muted: 222 12% 40%;
+  --line: 220 16% 87%;
+  --brand: 36 68% 42%;
+  --brand-dark: 36 72% 34%;
+  --brand-soft: 40 65% 92%;
+  --navy: 223 48% 17%;
+  --ok: 142 72% 30%;
+  --ok-soft: 140 76% 91%;
+  --bad: 0 72% 51%;
+  --bad-soft: 0 86% 94%;
+  --warn: 41 96% 36%;
+  --warn-soft: 54 96% 88%;
+  --info: 221 83% 53%;
+  --info-soft: 214 95% 93%;
+}
+.dark {
+  --bg: 223 40% 7%;
+  --card: 223 35% 11%;
+  --raised: 223 32% 15%;
+  --fg: 228 40% 94%;
+  --muted: 227 15% 62%;
+  --line: 223 28% 20%;
+  --brand: 38 80% 60%;
+  --brand-dark: 38 70% 52%;
+  --brand-soft: 38 60% 11%;
+  --navy: 223 50% 5%;
+  --ok: 142 70% 45%;
+  --ok-soft: 145 80% 8%;
+  --bad: 0 90% 71%;
+  --bad-soft: 0 80% 8%;
+  --warn: 48 96% 53%;
+  --warn-soft: 42 100% 6%;
+  --info: 213 94% 68%;
+  --info-soft: 221 80% 10%;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  @apply bg-bg font-sans text-fg antialiased;
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+input,
+select,
+textarea {
+  @apply font-sans;
+}
+.num {
+  font-variant-numeric: tabular-nums;
+}

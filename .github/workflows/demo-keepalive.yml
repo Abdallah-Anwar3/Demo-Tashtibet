@@ -1,0 +1,17 @@
+# Keeps the free Supabase demo project from pausing after a week of inactivity.
+# Add repository secrets: DEMO_SUPABASE_URL and DEMO_SUPABASE_ANON_KEY (Settings → Secrets and variables → Actions).
+name: demo-keepalive
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the demo API
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' "${{ secrets.DEMO_SUPABASE_URL }}/rest/v1/projects?select=id&limit=1" \
+            -H "apikey: ${{ secrets.DEMO_SUPABASE_ANON_KEY }}")
+          echo "HTTP $code"
+          test "$code" -lt 500
