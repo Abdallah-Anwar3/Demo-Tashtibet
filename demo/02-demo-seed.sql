@@ -1,4 +1,4 @@
--- Demo environment: fake accounts + fake data + nightly reset.
+-- Demo environment: fake accounts + fake data + hourly reset.
 -- Run ONLY in the separate Demo Supabase project, after all migrations (see demo/README.md).
 -- Everything here is invented. Demo password for all accounts: Demo@2026!
 
@@ -154,7 +154,7 @@ BEGIN
 END $$;
 REVOKE ALL ON FUNCTION public.demo_seed(), public.demo_reset() FROM PUBLIC, anon, authenticated;
 
--- First load, and every night at 02:00 UTC (04:00 Cairo).
+-- First load, and then at the start of every hour.
 SELECT public.demo_reset();
 SELECT cron.unschedule('demo-reset') WHERE EXISTS (SELECT 1 FROM cron.job WHERE jobname = 'demo-reset');
-SELECT cron.schedule('demo-reset', '0 2 * * *', 'SELECT public.demo_reset()');
+SELECT cron.schedule('demo-reset', '0 * * * *', 'SELECT public.demo_reset()');

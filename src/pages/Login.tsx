@@ -173,13 +173,15 @@ export default function Login() {
                 : "دخول العميل"}
           </Button>
         </div>
-        <button
-          type="button"
-          onClick={() => void forgot()}
-          className="mt-3 w-full text-center text-xs font-bold text-brand"
-        >
-          نسيت كلمة المرور؟
-        </button>
+        {!IS_DEMO && (
+          <button
+            type="button"
+            onClick={() => void forgot()}
+            className="mt-3 w-full text-center text-xs font-bold text-brand"
+          >
+            نسيت كلمة المرور؟
+          </button>
+        )}
         {IS_DEMO ? (
           <div className="mt-4 border-t border-line pt-3">
             <p className="mb-2 text-center text-xs font-bold text-muted">

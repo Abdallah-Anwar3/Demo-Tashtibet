@@ -30,6 +30,7 @@ import {
 import { money } from "@/lib/format";
 import { ROLE_LABEL } from "@/lib/labels";
 import { cn } from "@/lib/utils";
+import { DEMO_LOCKED_MSG, IS_DEMO } from "@/lib/demo";
 import type { Profile, Role } from "@/lib/types";
 
 /** Clients and the system admin have no salary or site allowance. */
@@ -191,10 +192,20 @@ export default function Team() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-extrabold">الفريق والحسابات</h1>
-        <Button onClick={() => open()}>
+        <Button
+          onClick={() => open()}
+          disabled={IS_DEMO}
+          title={IS_DEMO ? DEMO_LOCKED_MSG : undefined}
+        >
           <Plus className="h-4 w-4" /> إضافة مستخدم
         </Button>
       </div>
+      {IS_DEMO && (
+        <p className="rounded-lg bg-warn-soft p-3 text-xs font-bold text-warn">
+          في النسخة التجريبية يمكنك استعراض الفريق وصرف العهدة، أما إضافة
+          الحسابات وتعديلها وحذفها وتغيير كلمات المرور فغير متاحة.
+        </p>
+      )}
 
       <Card>
         {team.isLoading ? (
@@ -253,11 +264,11 @@ export default function Team() {
                           {ROLE_LABEL[u.role]}
                         </Badge>
                       </Td>
-                      <Td className="text-xs">
-                        <span dir="ltr">{u.email ?? "-"}</span>
+                      <Td className="text-xs [direction:ltr]">
+                        {u.email ?? "—"}
                       </Td>
-                      <Td className="num text-xs">
-                        <span dir="ltr">{u.phone ?? "-"}</span>
+                      <Td className="num text-xs [direction:ltr]">
+                        {u.phone ?? "—"}
                       </Td>
                       <Td className="num">
                         {noPay(u.role) ? "—" : money(u.base_salary)}
@@ -291,17 +302,25 @@ export default function Team() {
                             </button>
                           )}
                           <button
-                            title="تعديل"
+                            title={IS_DEMO ? DEMO_LOCKED_MSG : "تعديل"}
+                            disabled={IS_DEMO}
                             onClick={() => open(u)}
-                            className="rounded-lg p-2 text-muted hover:bg-raised"
+                            className="rounded-lg p-2 text-muted hover:bg-raised disabled:pointer-events-none disabled:opacity-40"
                           >
                             <Pencil className="h-4 w-4" />
                           </button>
                           {!self && (
                             <button
-                              title={u.is_active ? "إيقاف" : "تفعيل"}
+                              title={
+                                IS_DEMO
+                                  ? DEMO_LOCKED_MSG
+                                  : u.is_active
+                                    ? "إيقاف"
+                                    : "تفعيل"
+                              }
+                              disabled={IS_DEMO}
                               onClick={() => void toggleActive(u)}
-                              className="rounded-lg p-2 text-muted hover:bg-raised"
+                              className="rounded-lg p-2 text-muted hover:bg-raised disabled:pointer-events-none disabled:opacity-40"
                             >
                               {u.is_active ? (
                                 <Pause className="h-4 w-4" />
@@ -312,9 +331,10 @@ export default function Team() {
                           )}
                           {!self && (
                             <button
-                              title="حذف"
+                              title={IS_DEMO ? DEMO_LOCKED_MSG : "حذف"}
+                              disabled={IS_DEMO}
                               onClick={() => setConfirmDel(u)}
-                              className="rounded-lg p-2 text-muted hover:bg-bad-soft hover:text-bad"
+                              className="rounded-lg p-2 text-muted hover:bg-bad-soft hover:text-bad disabled:pointer-events-none disabled:opacity-40"
                             >
                               <Trash2 className="h-4 w-4" />
                             </button>

@@ -8,6 +8,7 @@ import {
 import { supabase } from "@/lib/supabase";
 import { todayISO } from "@/lib/format";
 import { pushIsOn } from "@/lib/push";
+import { DEMO_LOCKED_MSG, IS_DEMO } from "@/lib/demo";
 import type {
   AppNotification,
   Attendance,
@@ -387,6 +388,7 @@ export interface UserInput {
 export const useAdminUsers = () => {
   const qc = useQueryClient();
   const call = async (body: Record<string, unknown>) => {
+    if (IS_DEMO) throw new Error(DEMO_LOCKED_MSG); // accounts are fixed on the demo
     const { data, error } = await supabase.functions.invoke("admin-users", {
       body,
     });

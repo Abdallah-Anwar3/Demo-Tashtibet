@@ -8,6 +8,7 @@ import {
   useToast,
   PasswordInput,
 } from "@/components/ui";
+import { DEMO_LOCKED_MSG, IS_DEMO } from "@/lib/demo";
 
 /** Lets a signed-in user choose a new password (the session already proves who they are). */
 export function ChangePasswordModal({
@@ -31,6 +32,10 @@ export function ChangePasswordModal({
   };
 
   const submit = async () => {
+    if (IS_DEMO) {
+      setErr(new Error(DEMO_LOCKED_MSG));
+      return;
+    }
     if (pw.length < 8) {
       setErr(new Error("كلمة المرور 8 أحرف على الأقل"));
       return;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { KeyRound } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import {
@@ -10,9 +10,15 @@ import {
   PasswordInput,
 } from "@/components/ui";
 import Footer from "@/components/Footer";
+import { IS_DEMO } from "@/lib/demo";
 
 /** Landing page of the "forgot password" e-mail link. Supabase turns the link into a temporary session. */
+/** The demo has no password recovery: its accounts are shared and fixed. */
 export default function ResetPassword() {
+  return IS_DEMO ? <Navigate to="/login" replace /> : <ResetPasswordForm />;
+}
+
+function ResetPasswordForm() {
   const nav = useNavigate();
   const [ready, setReady] = useState<boolean | null>(null);
   const [pw, setPw] = useState("");
